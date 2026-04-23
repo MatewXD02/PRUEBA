@@ -399,45 +399,45 @@ export default function AdminUsersPage() {
 
   if (loading) {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center bg-black">
+      <div className="flex min-h-[60vh] items-center justify-center bg-background">
         <div className="flex flex-col items-center gap-4">
           <LoadingSpinner size="lg" />
-          <p className="text-sm text-violet-300/60">Cargando usuarios...</p>
+          <p className="text-sm text-muted-foreground">Cargando usuarios...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen space-y-6 bg-black p-6">
+    <div className="max-w-full space-y-4 overflow-x-hidden bg-background p-4 md:space-y-6 md:p-6">
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="font-sans text-3xl font-bold tracking-tight text-white">
+          <h1 className="font-sans text-2xl font-bold tracking-tight text-foreground md:text-3xl">
             Gestion de Usuarios
           </h1>
-          <p className="mt-1 text-violet-300/70">
+          <p className="mt-1 text-sm text-muted-foreground md:text-base">
             {users.length.toLocaleString()} usuarios registrados en core.users
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:gap-3">
           {selectedUsers.size > 0 && (
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               className="flex items-center gap-2"
             >
-              <span className="text-sm text-violet-300">
+              <span className="text-xs text-primary sm:text-sm">
                 {selectedUsers.size} seleccionados
               </span>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={handleBulkExport}
-                className="border-violet-500/30 bg-transparent text-violet-300 hover:border-violet-500/50 hover:bg-violet-500/10"
+                className="border-primary/30 bg-transparent text-primary hover:border-primary/50 hover:bg-primary/10"
               >
-                <Download className="mr-2 h-4 w-4" />
-                Exportar CSV
+                <Download className="h-4 w-4 sm:mr-2" />
+                <span className="hidden sm:inline">Exportar CSV</span>
               </Button>
             </motion.div>
           )}
@@ -446,30 +446,30 @@ export default function AdminUsersPage() {
             size="sm"
             onClick={() => setShowFilters(!showFilters)}
             className={cn(
-              "border-violet-500/30 bg-transparent hover:border-violet-500/50 hover:bg-violet-500/10",
-              showFilters ? "text-violet-300" : "text-violet-300/70"
+              "border-primary/30 bg-transparent hover:border-primary/50 hover:bg-primary/10",
+              showFilters ? "text-primary" : "text-muted-foreground"
             )}
           >
-            <Filter className="mr-2 h-4 w-4" />
-            Filtros
+            <Filter className="h-4 w-4 sm:mr-2" />
+            <span className="hidden sm:inline">Filtros</span>
           </Button>
-          <Button className="bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-lg shadow-violet-500/25 hover:from-violet-700 hover:to-purple-700">
-            <UserPlus className="mr-2 h-4 w-4" />
-            Agregar Usuario
+          <Button className="bg-gradient-to-r from-primary to-purple-600 text-primary-foreground shadow-lg shadow-primary/25 hover:from-primary/90 hover:to-purple-600/90">
+            <UserPlus className="h-4 w-4 sm:mr-2" />
+            <span className="hidden sm:inline">Agregar Usuario</span>
           </Button>
         </div>
       </div>
 
       {/* Search & Filters */}
-      <div className="space-y-4">
+      <div className="space-y-3 md:space-y-4">
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-violet-400/50" />
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground sm:left-4 sm:h-5 sm:w-5" />
           <input
             type="text"
             placeholder="Buscar por email, nombre o username..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full rounded-xl border border-violet-500/20 bg-black py-3 pl-12 pr-4 text-white placeholder-violet-400/40 transition-all focus:border-violet-500/50 focus:outline-none focus:ring-2 focus:ring-violet-500/20"
+            className="w-full rounded-xl border border-primary/20 bg-card py-2.5 pl-10 pr-4 text-sm text-foreground placeholder-muted-foreground transition-all focus:border-primary/50 focus:outline-none focus:ring-2 focus:ring-primary/20 sm:py-3 sm:pl-12 sm:text-base"
           />
         </div>
 
@@ -481,13 +481,13 @@ export default function AdminUsersPage() {
               exit={{ opacity: 0, height: 0 }}
               className="overflow-hidden"
             >
-              <div className="flex flex-wrap gap-4 rounded-xl border border-violet-500/20 bg-black/60 p-4">
-                <div className="flex-1 min-w-[200px]">
-                  <label className="mb-2 block text-xs font-medium text-violet-300/70">Rol (core_types.rol_ethoshub)</label>
+              <div className="flex flex-col gap-3 rounded-xl border border-primary/20 bg-card p-3 sm:flex-row sm:flex-wrap sm:gap-4 sm:p-4">
+                <div className="min-w-0 flex-1 sm:min-w-[180px]">
+                  <label className="mb-1.5 block text-xs font-medium text-muted-foreground sm:mb-2">Rol (core_types.rol_ethoshub)</label>
                   <select
                     value={roleFilter}
                     onChange={(e) => setRoleFilter(e.target.value)}
-                    className="w-full rounded-lg border border-violet-500/20 bg-black px-3 py-2 text-sm text-white focus:border-violet-500/50 focus:outline-none"
+                    className="w-full rounded-lg border border-primary/20 bg-background px-3 py-2 text-sm text-foreground focus:border-primary/50 focus:outline-none"
                   >
                     {roleOptions.map((option) => (
                       <option key={option.value} value={option.value}>
@@ -496,12 +496,12 @@ export default function AdminUsersPage() {
                     ))}
                   </select>
                 </div>
-                <div className="flex-1 min-w-[200px]">
-                  <label className="mb-2 block text-xs font-medium text-violet-300/70">Estado</label>
+                <div className="min-w-0 flex-1 sm:min-w-[180px]">
+                  <label className="mb-1.5 block text-xs font-medium text-muted-foreground sm:mb-2">Estado</label>
                   <select
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
-                    className="w-full rounded-lg border border-violet-500/20 bg-black px-3 py-2 text-sm text-white focus:border-violet-500/50 focus:outline-none"
+                    className="w-full rounded-lg border border-primary/20 bg-background px-3 py-2 text-sm text-foreground focus:border-primary/50 focus:outline-none"
                   >
                     {statusOptions.map((option) => (
                       <option key={option.value} value={option.value}>
@@ -517,7 +517,7 @@ export default function AdminUsersPage() {
       </div>
 
       {/* Users Table */}
-      <div className="overflow-hidden rounded-xl border border-violet-500/20 bg-black">
+      <div className="overflow-hidden rounded-xl border border-primary/20 bg-card">
         {paginatedUsers.length === 0 ? (
           <div className="p-12">
             <EmptyState
@@ -528,48 +528,48 @@ export default function AdminUsersPage() {
           </div>
         ) : (
           <>
-            <div className="overflow-x-auto">
-              <table className="w-full">
+            <div className="w-full overflow-x-auto">
+              <table className="w-full min-w-[640px]">
                 <thead>
-                  <tr className="border-b border-violet-500/20 bg-violet-500/5">
-                    <th className="w-12 px-4 py-4">
+                  <tr className="border-b border-primary/20 bg-primary/5">
+                    <th className="w-10 px-2 py-3 sm:w-12 sm:px-4 sm:py-4">
                       <button
                         onClick={handleSelectAll}
                         className={cn(
-                          "flex h-5 w-5 items-center justify-center rounded border transition-all",
+                          "flex h-4 w-4 items-center justify-center rounded border transition-all sm:h-5 sm:w-5",
                           selectedUsers.size === paginatedUsers.length
-                            ? "border-violet-500 bg-violet-500 text-white"
-                            : "border-violet-500/30 hover:border-violet-500/50"
+                            ? "border-primary bg-primary text-primary-foreground"
+                            : "border-primary/30 hover:border-primary/50"
                         )}
                       >
                         {selectedUsers.size === paginatedUsers.length && (
-                          <Check className="h-3 w-3" />
+                          <Check className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
                         )}
                       </button>
                     </th>
-                    <th className="px-4 py-4 text-left">
+                    <th className="px-2 py-3 text-left sm:px-4 sm:py-4">
                       <button
                         onClick={() => handleSort('nombre_completo')}
-                        className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-violet-300/70 hover:text-violet-300"
+                        className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground sm:gap-2 sm:text-xs"
                       >
                         Usuario
                         <SortIcon field="nombre_completo" />
                       </button>
                     </th>
-                    <th className="px-4 py-4 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider text-violet-300/70">
+                    <th className="hidden px-2 py-3 text-left sm:table-cell sm:px-4 sm:py-4">
+                      <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground sm:text-xs">
                         Rol
                       </span>
                     </th>
-                    <th className="px-4 py-4 text-left">
-                      <span className="text-xs font-semibold uppercase tracking-wider text-violet-300/70">
+                    <th className="px-2 py-3 text-left sm:px-4 sm:py-4">
+                      <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground sm:text-xs">
                         Estado
                       </span>
                     </th>
-                    <th className="px-4 py-4 text-left">
+                    <th className="hidden px-2 py-3 text-left md:table-cell sm:px-4 sm:py-4">
                       <button
                         onClick={() => handleSort('fecha_registro')}
-                        className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-violet-300/70 hover:text-violet-300"
+                        className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground sm:gap-2 sm:text-xs"
                       >
                         Registro
                         <SortIcon field="fecha_registro" />

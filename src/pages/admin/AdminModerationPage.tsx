@@ -343,24 +343,24 @@ export default function AdminModerationPage() {
   };
 
   return (
-    <div className="min-h-screen space-y-6 bg-black p-6">
+    <div className="max-w-full space-y-4 overflow-x-hidden bg-background p-4 md:space-y-6 md:p-6">
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="font-sans text-3xl font-bold tracking-tight text-white">
+          <h1 className="font-sans text-2xl font-bold tracking-tight text-foreground md:text-3xl">
             Moderacion y Auditoria
           </h1>
-          <p className="mt-1 text-violet-300/70">Panel de control del esquema admin</p>
+          <p className="mt-1 text-sm text-muted-foreground md:text-base">Panel de control del esquema admin</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <Button
             variant="outline"
             size="sm"
             onClick={handleRefresh}
-            className="border-violet-500/30 bg-transparent text-violet-300 hover:border-violet-500/50 hover:bg-violet-500/10"
+            className="border-primary/30 bg-transparent text-primary hover:border-primary/50 hover:bg-primary/10"
           >
-            <RefreshCw className={cn("mr-2 h-4 w-4", isRefreshing && "animate-spin")} />
-            Actualizar
+            <RefreshCw className={cn("h-4 w-4 sm:mr-2", isRefreshing && "animate-spin")} />
+            <span className="hidden sm:inline">Actualizar</span>
           </Button>
           {pendingItems.length > 0 && (
             <Badge className="border-0 bg-amber-500/15 text-amber-400">
@@ -372,14 +372,14 @@ export default function AdminModerationPage() {
       </div>
 
       {/* System Health Grid */}
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         {systemStatus.map((service, index) => (
           <motion.div
             key={service.name}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: index * 0.1 }}
-            className="group relative overflow-hidden rounded-xl border border-violet-500/20 bg-black p-4 transition-all hover:border-violet-500/40"
+            className="group relative overflow-hidden rounded-xl border border-primary/20 bg-card p-3 transition-all hover:border-primary/40 sm:p-4"
           >
             {/* Animated pulse for healthy status */}
             {service.status === 'healthy' && (
@@ -387,11 +387,11 @@ export default function AdminModerationPage() {
             )}
             
             <div className="flex items-center justify-between">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-violet-500/10">
-                {service.name === 'API Server' && <Server className="h-5 w-5 text-violet-400" />}
-                {service.name === 'Database' && <Database className="h-5 w-5 text-violet-400" />}
-                {service.name === 'Auth Service' && <Shield className="h-5 w-5 text-violet-400" />}
-                {service.name === 'CDN' && <Zap className="h-5 w-5 text-violet-400" />}
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 sm:h-10 sm:w-10">
+                {service.name === 'API Server' && <Server className="h-4 w-4 text-primary sm:h-5 sm:w-5" />}
+                {service.name === 'Database' && <Database className="h-4 w-4 text-primary sm:h-5 sm:w-5" />}
+                {service.name === 'Auth Service' && <Shield className="h-4 w-4 text-primary sm:h-5 sm:w-5" />}
+                {service.name === 'CDN' && <Zap className="h-4 w-4 text-primary sm:h-5 sm:w-5" />}
               </div>
               <div className="relative">
                 {getStatusIcon(service.status)}
@@ -402,12 +402,12 @@ export default function AdminModerationPage() {
                 )}
               </div>
             </div>
-            <div className="mt-3">
-              <p className="font-medium text-white">{service.name}</p>
-              <div className="mt-1 flex items-center gap-2 text-xs">
+            <div className="mt-2 sm:mt-3">
+              <p className="text-xs font-medium text-foreground sm:text-sm">{service.name}</p>
+              <div className="mt-0.5 flex items-center gap-1 text-[10px] sm:mt-1 sm:gap-2 sm:text-xs">
                 <span className="text-emerald-400">{service.latency}ms</span>
-                <span className="text-violet-500">|</span>
-                <span className="text-violet-300/60">{service.uptime}</span>
+                <span className="text-primary">|</span>
+                <span className="text-muted-foreground">{service.uptime}</span>
               </div>
             </div>
           </motion.div>
@@ -415,24 +415,24 @@ export default function AdminModerationPage() {
       </div>
 
       {/* Main Content Grid */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-2">
         {/* Audit Trail Timeline */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <div className="rounded-xl border border-violet-500/20 bg-black p-6">
-            <div className="mb-6 flex items-center justify-between">
+          <div className="rounded-xl border border-primary/20 bg-card p-4 md:p-6">
+            <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between md:mb-6">
               <div>
-                <h2 className="font-sans text-lg font-semibold text-white">Audit Trail</h2>
-                <p className="text-sm text-violet-300/60">admin.audit_logs</p>
+                <h2 className="font-sans text-base font-semibold text-foreground md:text-lg">Audit Trail</h2>
+                <p className="text-xs text-muted-foreground md:text-sm">admin.audit_logs</p>
               </div>
               <div className="flex items-center gap-2">
                 <select
                   value={selectedLogFilter}
                   onChange={(e) => setSelectedLogFilter(e.target.value)}
-                  className="rounded-lg border border-violet-500/20 bg-black px-3 py-1.5 text-sm text-violet-300 focus:border-violet-500/50 focus:outline-none"
+                  className="w-full rounded-lg border border-primary/20 bg-background px-2 py-1.5 text-xs text-foreground focus:border-primary/50 focus:outline-none sm:w-auto sm:px-3 sm:text-sm"
                 >
                   <option value="all">Todos</option>
                   <option value="info">Info</option>

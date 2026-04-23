@@ -169,17 +169,17 @@ const severityClassNames = {
 
 export default function AdminSkillsPage() {
   return (
-    <div className="space-y-6">
-      <section className="overflow-hidden rounded-3xl border border-border bg-card">
+    <div className="max-w-full space-y-4 overflow-x-hidden p-4 md:space-y-6 md:p-6">
+      <section className="overflow-hidden rounded-2xl border border-border bg-card md:rounded-3xl">
         <div className="relative">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(14,165,233,0.18),_transparent_28%),radial-gradient(circle_at_80%_20%,_rgba(251,191,36,0.18),_transparent_24%),linear-gradient(135deg,rgba(15,23,42,0.05),transparent_55%)]" />
-          <div className="relative flex flex-col gap-6 p-6 lg:flex-row lg:items-end lg:justify-between lg:p-8">
+          <div className="relative flex flex-col gap-4 p-4 md:gap-6 md:p-6 lg:flex-row lg:items-end lg:justify-between lg:p-8">
             <div className="max-w-2xl">
               <Badge variant="outline" className="border-sky-500/30 bg-sky-500/5 text-sky-500">
                 <Sparkles className="mr-1 h-3 w-3" />
                 Centro de Curacion
               </Badge>
-              <h1 className="mt-4 text-3xl font-bold tracking-tight text-foreground">
+              <h1 className="mt-3 text-2xl font-bold tracking-tight text-foreground md:mt-4 md:text-3xl">
                 Administracion de Skills
               </h1>
               <p className="mt-3 text-sm leading-6 text-muted-foreground sm:text-base">
@@ -189,34 +189,34 @@ export default function AdminSkillsPage() {
               </p>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-3">
-              <div className="rounded-2xl border border-border/70 bg-background/80 p-4 backdrop-blur">
-                <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+            <div className="grid gap-2 sm:grid-cols-3 sm:gap-3">
+              <div className="rounded-xl border border-border/70 bg-background/80 p-3 backdrop-blur sm:rounded-2xl sm:p-4">
+                <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground sm:text-xs">
                   Revision activa
                 </p>
-                <p className="mt-2 text-2xl font-semibold text-foreground">07</p>
-                <p className="mt-1 text-sm text-muted-foreground">skills con seguimiento manual</p>
+                <p className="mt-1.5 text-xl font-semibold text-foreground sm:mt-2 sm:text-2xl">07</p>
+                <p className="mt-0.5 text-xs text-muted-foreground sm:mt-1 sm:text-sm">skills con seguimiento manual</p>
               </div>
-              <div className="rounded-2xl border border-border/70 bg-background/80 p-4 backdrop-blur">
-                <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+              <div className="rounded-xl border border-border/70 bg-background/80 p-3 backdrop-blur sm:rounded-2xl sm:p-4">
+                <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground sm:text-xs">
                   Con integraciones
                 </p>
-                <p className="mt-2 text-2xl font-semibold text-foreground">41</p>
-                <p className="mt-1 text-sm text-muted-foreground">Slack, GitHub, Notion y CRM</p>
+                <p className="mt-1.5 text-xl font-semibold text-foreground sm:mt-2 sm:text-2xl">41</p>
+                <p className="mt-0.5 text-xs text-muted-foreground sm:mt-1 sm:text-sm">Slack, GitHub, Notion y CRM</p>
               </div>
-              <div className="rounded-2xl border border-border/70 bg-background/80 p-4 backdrop-blur">
-                <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+              <div className="rounded-xl border border-border/70 bg-background/80 p-3 backdrop-blur sm:rounded-2xl sm:p-4">
+                <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground sm:text-xs">
                   Ultimo refresh
                 </p>
-                <p className="mt-2 text-2xl font-semibold text-foreground">09:42</p>
-                <p className="mt-1 text-sm text-muted-foreground">snapshot de datos mock</p>
+                <p className="mt-1.5 text-xl font-semibold text-foreground sm:mt-2 sm:text-2xl">09:42</p>
+                <p className="mt-0.5 text-xs text-muted-foreground sm:mt-1 sm:text-sm">snapshot de datos mock</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <section className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         {overviewStats.map((item, index) => (
           <motion.div
             key={item.label}
@@ -225,46 +225,46 @@ export default function AdminSkillsPage() {
             transition={{ delay: index * 0.08 }}
           >
             <Card className="relative overflow-hidden p-0">
-              <div className={cn('absolute inset-x-0 top-0 h-24 bg-gradient-to-br', item.accent)} />
-              <div className="relative p-6">
+              <div className={cn('absolute inset-x-0 top-0 h-16 bg-gradient-to-br sm:h-24', item.accent)} />
+              <div className="relative p-3 sm:p-6">
                 <div className="flex items-start justify-between">
-                  <div className="rounded-2xl border border-border/70 bg-background/80 p-3">
-                    <item.icon className="h-5 w-5 text-foreground" />
+                  <div className="rounded-xl border border-border/70 bg-background/80 p-2 sm:rounded-2xl sm:p-3">
+                    <item.icon className="h-4 w-4 text-foreground sm:h-5 sm:w-5" />
                   </div>
-                  <span className="inline-flex items-center gap-1 rounded-full bg-background/90 px-2.5 py-1 text-xs font-medium text-muted-foreground">
-                    <ArrowUpRight className="h-3 w-3 text-emerald-500" />
-                    {item.change}
+                  <span className="inline-flex items-center gap-0.5 rounded-full bg-background/90 px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground sm:gap-1 sm:px-2.5 sm:py-1 sm:text-xs">
+                    <ArrowUpRight className="h-2.5 w-2.5 text-emerald-500 sm:h-3 sm:w-3" />
+                    <span className="hidden sm:inline">{item.change}</span>
                   </span>
                 </div>
-                <p className="mt-8 text-3xl font-bold text-foreground">{item.value}</p>
-                <p className="mt-1 text-sm text-muted-foreground">{item.label}</p>
+                <p className="mt-4 text-xl font-bold text-foreground sm:mt-8 sm:text-3xl">{item.value}</p>
+                <p className="mt-0.5 text-xs text-muted-foreground sm:mt-1 sm:text-sm">{item.label}</p>
               </div>
             </Card>
           </motion.div>
         ))}
       </section>
 
-      <section className="grid grid-cols-1 gap-6 xl:grid-cols-[1.6fr_1fr]">
-        <Card className="p-6">
-          <div className="flex flex-col gap-4 border-b border-border pb-5 sm:flex-row sm:items-center sm:justify-between">
+      <section className="grid grid-cols-1 gap-4 md:gap-6 xl:grid-cols-[1.6fr_1fr]">
+        <Card className="p-4 md:p-6">
+          <div className="flex flex-col gap-3 border-b border-border pb-4 sm:flex-row sm:items-center sm:justify-between sm:pb-5">
             <div>
-              <h2 className="text-lg font-semibold text-foreground">Catalogo destacado</h2>
-              <p className="mt-1 text-sm text-muted-foreground">
+              <h2 className="text-base font-semibold text-foreground md:text-lg">Catalogo destacado</h2>
+              <p className="mt-0.5 text-xs text-muted-foreground sm:mt-1 sm:text-sm">
                 Skills listas para exhibicion, demo interna o promocion editorial.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="h-8 px-2 sm:px-3">
                 <Search className="h-4 w-4" />
-                Buscar
+                <span className="ml-1 hidden sm:inline">Buscar</span>
               </Button>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="h-8 px-2 sm:px-3">
                 <Filter className="h-4 w-4" />
-                Filtrar
+                <span className="ml-1 hidden sm:inline">Filtrar</span>
               </Button>
-              <Button size="sm">
+              <Button size="sm" className="h-8 px-2 sm:px-3">
                 <Code2 className="h-4 w-4" />
-                Nueva ficha
+                <span className="ml-1 hidden sm:inline">Nueva ficha</span>
               </Button>
             </div>
           </div>
@@ -343,8 +343,8 @@ export default function AdminSkillsPage() {
         </Card>
       </section>
 
-      <section className="grid grid-cols-1 gap-6 xl:grid-cols-[1.1fr_0.9fr]">
-        <Card className="p-6">
+      <section className="grid grid-cols-1 gap-4 md:gap-6 xl:grid-cols-[1.1fr_0.9fr]">
+        <Card className="p-4 md:p-6">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-lg font-semibold text-foreground">Cola de moderacion</h2>
@@ -357,8 +357,8 @@ export default function AdminSkillsPage() {
             </Badge>
           </div>
 
-          <div className="mt-5 overflow-hidden rounded-2xl border border-border">
-            <div className="grid grid-cols-[1.3fr_1fr_1fr_0.8fr] gap-3 bg-muted/40 px-4 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+          <div className="mt-4 overflow-x-auto rounded-xl border border-border md:mt-5 md:rounded-2xl">
+            <div className="hidden min-w-[500px] grid-cols-[1.3fr_1fr_1fr_0.8fr] gap-3 bg-muted/40 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground sm:grid sm:px-4 sm:py-3 sm:text-xs">
               <span>Skill</span>
               <span>Autor</span>
               <span>Motivo</span>
@@ -367,7 +367,7 @@ export default function AdminSkillsPage() {
             {moderationQueue.map((item) => (
               <div
                 key={item.name}
-                className="grid grid-cols-1 gap-3 border-t border-border px-4 py-4 text-sm sm:grid-cols-[1.3fr_1fr_1fr_0.8fr]"
+                className="grid min-w-[500px] grid-cols-[1.3fr_1fr_1fr_0.8fr] gap-2 border-t border-border px-3 py-3 text-xs sm:gap-3 sm:px-4 sm:py-4 sm:text-sm"
               >
                 <div>
                   <p className="font-medium text-foreground">{item.name}</p>
@@ -383,18 +383,18 @@ export default function AdminSkillsPage() {
           </div>
         </Card>
 
-        <Card className="p-6">
+        <Card className="p-4 md:p-6">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-semibold text-foreground">Salud del ecosistema</h2>
-              <p className="mt-1 text-sm text-muted-foreground">
+              <h2 className="text-base font-semibold text-foreground md:text-lg">Salud del ecosistema</h2>
+              <p className="mt-0.5 text-xs text-muted-foreground sm:mt-1 sm:text-sm">
                 Indicadores mock para que la seccion tenga lectura rapida.
               </p>
             </div>
-            <Bot className="h-5 w-5 text-muted-foreground" />
+            <Bot className="h-4 w-4 text-muted-foreground sm:h-5 sm:w-5" />
           </div>
 
-          <div className="mt-5 space-y-5">
+          <div className="mt-4 space-y-4 md:mt-5 md:space-y-5">
             {healthSignals.map((signal) => (
               <div key={signal.label} className="space-y-2">
                 <div className="flex items-center justify-between text-sm">

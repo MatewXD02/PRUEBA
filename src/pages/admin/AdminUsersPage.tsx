@@ -516,10 +516,10 @@ export default function AdminUsersPage() {
         </AnimatePresence>
       </div>
 
-      {/* Users Table */}
-      <div className="overflow-hidden rounded-xl border border-primary/20 bg-card">
+      {/* Users List/Table */}
+      <div className="w-full max-w-full overflow-hidden rounded-xl border border-primary/20 bg-card">
         {paginatedUsers.length === 0 ? (
-          <div className="p-12">
+          <div className="p-8 md:p-12">
             <EmptyState
               icon={Users}
               title="No se encontraron usuarios"
@@ -528,187 +528,330 @@ export default function AdminUsersPage() {
           </div>
         ) : (
           <>
-            <div className="w-full overflow-x-auto">
-              <table className="w-full min-w-[640px]">
-                <thead>
-                  <tr className="border-b border-primary/20 bg-primary/5">
-                    <th className="w-10 px-2 py-3 sm:w-12 sm:px-4 sm:py-4">
-                      <button
-                        onClick={handleSelectAll}
-                        className={cn(
-                          "flex h-4 w-4 items-center justify-center rounded border transition-all sm:h-5 sm:w-5",
-                          selectedUsers.size === paginatedUsers.length
-                            ? "border-primary bg-primary text-primary-foreground"
-                            : "border-primary/30 hover:border-primary/50"
-                        )}
-                      >
-                        {selectedUsers.size === paginatedUsers.length && (
-                          <Check className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
-                        )}
-                      </button>
-                    </th>
-                    <th className="px-2 py-3 text-left sm:px-4 sm:py-4">
-                      <button
-                        onClick={() => handleSort('nombre_completo')}
-                        className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground sm:gap-2 sm:text-xs"
-                      >
-                        Usuario
-                        <SortIcon field="nombre_completo" />
-                      </button>
-                    </th>
-                    <th className="hidden px-2 py-3 text-left sm:table-cell sm:px-4 sm:py-4">
-                      <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground sm:text-xs">
-                        Rol
-                      </span>
-                    </th>
-                    <th className="px-2 py-3 text-left sm:px-4 sm:py-4">
-                      <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground sm:text-xs">
-                        Estado
-                      </span>
-                    </th>
-                    <th className="hidden px-2 py-3 text-left md:table-cell sm:px-4 sm:py-4">
-                      <button
-                        onClick={() => handleSort('fecha_registro')}
-                        className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground sm:gap-2 sm:text-xs"
-                      >
-                        Registro
-                        <SortIcon field="fecha_registro" />
-                      </button>
-                    </th>
-                    <th className="px-4 py-4 text-left">
-                      <button
-                        onClick={() => handleSort('portfolio_views')}
-                        className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-violet-300/70 hover:text-violet-300"
-                      >
-                        Vistas
-                        <SortIcon field="portfolio_views" />
-                      </button>
-                    </th>
-                    <th className="w-16 px-4 py-4" />
-                  </tr>
-                </thead>
-                <tbody>
-                  <AnimatePresence mode="popLayout">
-                    {paginatedUsers.map((user, index) => (
-                      <motion.tr
-                        key={user.id}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ delay: index * 0.03 }}
-                        className={cn(
-                          "border-b border-violet-500/10 transition-colors hover:bg-violet-500/5",
-                          selectedUsers.has(user.id) && "bg-violet-500/10"
-                        )}
-                      >
-                        <td className="px-4 py-4">
+            {/* Mobile Card List View */}
+            <div className="block md:hidden">
+              {/* Mobile Header with Select All */}
+              <div className="flex items-center justify-between border-b border-primary/20 bg-primary/5 px-4 py-3">
+                <button
+                  onClick={handleSelectAll}
+                  className={cn(
+                    "flex items-center gap-2 text-xs font-medium",
+                    selectedUsers.size === paginatedUsers.length
+                      ? "text-primary"
+                      : "text-muted-foreground"
+                  )}
+                >
+                  <span className={cn(
+                    "flex h-4 w-4 items-center justify-center rounded border transition-all",
+                    selectedUsers.size === paginatedUsers.length
+                      ? "border-primary bg-primary text-primary-foreground"
+                      : "border-primary/30"
+                  )}>
+                    {selectedUsers.size === paginatedUsers.length && (
+                      <Check className="h-2.5 w-2.5" />
+                    )}
+                  </span>
+                  Seleccionar todos
+                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handleSort('nombre_completo')}
+                    className="flex items-center gap-1 text-xs text-muted-foreground"
+                  >
+                    Ordenar
+                    <SortIcon field="nombre_completo" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Mobile Card List */}
+              <div className="divide-y divide-primary/10">
+                <AnimatePresence mode="popLayout">
+                  {paginatedUsers.map((user, index) => (
+                    <motion.div
+                      key={user.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ delay: index * 0.03 }}
+                      className={cn(
+                        "flex flex-col gap-3 p-4 transition-colors",
+                        selectedUsers.has(user.id) && "bg-primary/5"
+                      )}
+                    >
+                      {/* Top Row: Avatar + User Info + Actions */}
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex items-center gap-3">
                           <button
                             onClick={() => handleSelectUser(user.id)}
                             className={cn(
-                              "flex h-5 w-5 items-center justify-center rounded border transition-all",
+                              "flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border transition-all",
                               selectedUsers.has(user.id)
-                                ? "border-violet-500 bg-violet-500 text-white"
-                                : "border-violet-500/30 hover:border-violet-500/50"
+                                ? "border-primary bg-primary text-primary-foreground"
+                                : "border-primary/30 hover:border-primary/50"
                             )}
                           >
                             {selectedUsers.has(user.id) && (
                               <Check className="h-3 w-3" />
                             )}
                           </button>
-                        </td>
-                        <td className="px-4 py-4">
-                          <div className="flex items-center gap-3">
-                            <Avatar 
-                              src={user.avatar_url} 
-                              name={user.nombre_completo} 
-                              size="md" 
-                              className="border border-violet-500/20"
-                            />
-                            <div>
-                              <p className="font-medium text-white">{user.nombre_completo}</p>
-                              <p className="text-sm text-violet-300/60">{user.email}</p>
-                            </div>
+                          <Avatar 
+                            src={user.avatar_url} 
+                            name={user.nombre_completo} 
+                            size="md" 
+                            className="flex-shrink-0 border border-primary/20"
+                          />
+                          <div className="min-w-0">
+                            <p className="truncate font-medium text-foreground">{user.nombre_completo}</p>
+                            <p className="truncate text-sm text-muted-foreground">{user.email}</p>
                           </div>
-                        </td>
-                        <td className="px-4 py-4">{getRoleBadge(user.rol)}</td>
-                        <td className="px-4 py-4">{getStatusBadge(user.status)}</td>
-                        <td className="px-4 py-4">
-                          <span className="text-sm text-violet-300/80">
-                            {formatDate(user.fecha_registro)}
-                          </span>
-                        </td>
-                        <td className="px-4 py-4">
-                          <span className="text-sm font-medium text-white">
-                            {user.portfolio_views.toLocaleString()}
-                          </span>
-                        </td>
-                        <td className="px-4 py-4">
-                          <div className="group relative">
-                            <button className="flex h-8 w-8 items-center justify-center rounded-lg border border-violet-500/20 text-violet-400 transition-all hover:border-violet-500/40 hover:bg-violet-500/10">
-                              <MoreHorizontal className="h-4 w-4" />
+                        </div>
+                        
+                        {/* Actions Menu */}
+                        <div className="group relative flex-shrink-0">
+                          <button className="flex h-8 w-8 items-center justify-center rounded-lg border border-primary/20 text-muted-foreground transition-all hover:border-primary/40 hover:bg-primary/10 hover:text-primary">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </button>
+                          <div className="invisible absolute right-0 top-full z-50 mt-2 min-w-[180px] rounded-xl border border-primary/30 bg-card p-2 opacity-0 shadow-xl transition-all group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+                            <button
+                              onClick={() => handleAction('view', user)}
+                              className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-foreground transition-colors hover:bg-primary/10"
+                            >
+                              <Eye className="h-4 w-4" />
+                              Ver Perfil
                             </button>
-                            {/* Dropdown */}
-                            <div className="invisible absolute right-0 top-full z-50 mt-2 min-w-[200px] rounded-xl border border-violet-500/30 bg-black/95 p-2 opacity-0 shadow-xl backdrop-blur-sm transition-all group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+                            <button
+                              onClick={() => handleAction('changeRole', user)}
+                              className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-foreground transition-colors hover:bg-primary/10"
+                            >
+                              <UserCog className="h-4 w-4" />
+                              Cambiar Rol
+                            </button>
+                            <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-foreground transition-colors hover:bg-primary/10">
+                              <Mail className="h-4 w-4" />
+                              Enviar Email
+                            </button>
+                            <div className="my-2 border-t border-primary/20" />
+                            {user.status !== 'banned' ? (
                               <button
-                                onClick={() => handleAction('view', user)}
-                                className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-violet-300 transition-colors hover:bg-violet-500/10"
+                                onClick={() => handleAction('ban', user)}
+                                className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-red-400 transition-colors hover:bg-red-500/10"
                               >
-                                <Eye className="h-4 w-4" />
-                                Ver Perfil Publico
+                                <Ban className="h-4 w-4" />
+                                Banear
                               </button>
+                            ) : (
                               <button
-                                onClick={() => handleAction('changeRole', user)}
-                                className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-violet-300 transition-colors hover:bg-violet-500/10"
+                                onClick={() => handleAction('unban', user)}
+                                className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-emerald-400 transition-colors hover:bg-emerald-500/10"
                               >
-                                <UserCog className="h-4 w-4" />
-                                Cambiar Rol
+                                <Shield className="h-4 w-4" />
+                                Desbanear
                               </button>
-                              <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-violet-300 transition-colors hover:bg-violet-500/10">
-                                <Mail className="h-4 w-4" />
-                                Enviar Email
-                              </button>
-                              <div className="my-2 border-t border-violet-500/20" />
-                              {user.status !== 'banned' ? (
-                                <button
-                                  onClick={() => handleAction('ban', user)}
-                                  className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-red-400 transition-colors hover:bg-red-500/10"
-                                >
-                                  <Ban className="h-4 w-4" />
-                                  Banear Usuario
-                                </button>
-                              ) : (
-                                <button
-                                  onClick={() => handleAction('unban', user)}
-                                  className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-emerald-400 transition-colors hover:bg-emerald-500/10"
-                                >
-                                  <Shield className="h-4 w-4" />
-                                  Desbanear Usuario
-                                </button>
-                              )}
-                            </div>
+                            )}
                           </div>
-                        </td>
-                      </motion.tr>
-                    ))}
-                  </AnimatePresence>
-                </tbody>
-              </table>
+                        </div>
+                      </div>
+
+                      {/* Bottom Row: Role, Status, Date - Wrapped */}
+                      <div className="flex flex-wrap items-center gap-2 pl-8">
+                        {getRoleBadge(user.rol)}
+                        {getStatusBadge(user.status)}
+                        <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
+                          <Calendar className="h-3 w-3" />
+                          {formatDate(user.fecha_registro)}
+                        </span>
+                      </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+            </div>
+
+            {/* Desktop Table View */}
+            <div className="hidden md:block">
+              <div className="w-full overflow-x-auto">
+                <table className="w-full min-w-full">
+                  <thead>
+                    <tr className="border-b border-primary/20 bg-primary/5">
+                      <th className="w-12 px-4 py-4">
+                        <button
+                          onClick={handleSelectAll}
+                          className={cn(
+                            "flex h-5 w-5 items-center justify-center rounded border transition-all",
+                            selectedUsers.size === paginatedUsers.length
+                              ? "border-primary bg-primary text-primary-foreground"
+                              : "border-primary/30 hover:border-primary/50"
+                          )}
+                        >
+                          {selectedUsers.size === paginatedUsers.length && (
+                            <Check className="h-3 w-3" />
+                          )}
+                        </button>
+                      </th>
+                      <th className="px-4 py-4 text-left">
+                        <button
+                          onClick={() => handleSort('nombre_completo')}
+                          className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground"
+                        >
+                          Usuario
+                          <SortIcon field="nombre_completo" />
+                        </button>
+                      </th>
+                      <th className="px-4 py-4 text-left">
+                        <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                          Rol
+                        </span>
+                      </th>
+                      <th className="px-4 py-4 text-left">
+                        <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                          Estado
+                        </span>
+                      </th>
+                      <th className="px-4 py-4 text-left">
+                        <button
+                          onClick={() => handleSort('fecha_registro')}
+                          className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground"
+                        >
+                          Registro
+                          <SortIcon field="fecha_registro" />
+                        </button>
+                      </th>
+                      <th className="px-4 py-4 text-left">
+                        <button
+                          onClick={() => handleSort('portfolio_views')}
+                          className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground"
+                        >
+                          Vistas
+                          <SortIcon field="portfolio_views" />
+                        </button>
+                      </th>
+                      <th className="w-16 px-4 py-4" />
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <AnimatePresence mode="popLayout">
+                      {paginatedUsers.map((user, index) => (
+                        <motion.tr
+                          key={user.id}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ delay: index * 0.03 }}
+                          className={cn(
+                            "border-b border-primary/10 transition-colors hover:bg-primary/5",
+                            selectedUsers.has(user.id) && "bg-primary/10"
+                          )}
+                        >
+                          <td className="px-4 py-4">
+                            <button
+                              onClick={() => handleSelectUser(user.id)}
+                              className={cn(
+                                "flex h-5 w-5 items-center justify-center rounded border transition-all",
+                                selectedUsers.has(user.id)
+                                  ? "border-primary bg-primary text-primary-foreground"
+                                  : "border-primary/30 hover:border-primary/50"
+                              )}
+                            >
+                              {selectedUsers.has(user.id) && (
+                                <Check className="h-3 w-3" />
+                              )}
+                            </button>
+                          </td>
+                          <td className="px-4 py-4">
+                            <div className="flex items-center gap-3">
+                              <Avatar 
+                                src={user.avatar_url} 
+                                name={user.nombre_completo} 
+                                size="md" 
+                                className="border border-primary/20"
+                              />
+                              <div>
+                                <p className="font-medium text-foreground">{user.nombre_completo}</p>
+                                <p className="text-sm text-muted-foreground">{user.email}</p>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-4 py-4">{getRoleBadge(user.rol)}</td>
+                          <td className="px-4 py-4">{getStatusBadge(user.status)}</td>
+                          <td className="px-4 py-4">
+                            <span className="text-sm text-muted-foreground">
+                              {formatDate(user.fecha_registro)}
+                            </span>
+                          </td>
+                          <td className="px-4 py-4">
+                            <span className="text-sm font-medium text-foreground">
+                              {user.portfolio_views.toLocaleString()}
+                            </span>
+                          </td>
+                          <td className="px-4 py-4">
+                            <div className="group relative">
+                              <button className="flex h-8 w-8 items-center justify-center rounded-lg border border-primary/20 text-muted-foreground transition-all hover:border-primary/40 hover:bg-primary/10 hover:text-primary">
+                                <MoreHorizontal className="h-4 w-4" />
+                              </button>
+                              {/* Dropdown */}
+                              <div className="invisible absolute right-0 top-full z-50 mt-2 min-w-[200px] rounded-xl border border-primary/30 bg-card p-2 opacity-0 shadow-xl transition-all group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+                                <button
+                                  onClick={() => handleAction('view', user)}
+                                  className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-foreground transition-colors hover:bg-primary/10"
+                                >
+                                  <Eye className="h-4 w-4" />
+                                  Ver Perfil Publico
+                                </button>
+                                <button
+                                  onClick={() => handleAction('changeRole', user)}
+                                  className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-foreground transition-colors hover:bg-primary/10"
+                                >
+                                  <UserCog className="h-4 w-4" />
+                                  Cambiar Rol
+                                </button>
+                                <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-foreground transition-colors hover:bg-primary/10">
+                                  <Mail className="h-4 w-4" />
+                                  Enviar Email
+                                </button>
+                                <div className="my-2 border-t border-primary/20" />
+                                {user.status !== 'banned' ? (
+                                  <button
+                                    onClick={() => handleAction('ban', user)}
+                                    className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-red-400 transition-colors hover:bg-red-500/10"
+                                  >
+                                    <Ban className="h-4 w-4" />
+                                    Banear Usuario
+                                  </button>
+                                ) : (
+                                  <button
+                                    onClick={() => handleAction('unban', user)}
+                                    className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-emerald-400 transition-colors hover:bg-emerald-500/10"
+                                  >
+                                    <Shield className="h-4 w-4" />
+                                    Desbanear Usuario
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          </td>
+                        </motion.tr>
+                      ))}
+                    </AnimatePresence>
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             {/* Pagination */}
-            <div className="flex items-center justify-between border-t border-violet-500/20 px-6 py-4">
-              <p className="text-sm text-violet-300/60">
+            <div className="flex flex-col items-center justify-between gap-3 border-t border-primary/20 px-4 py-4 sm:flex-row md:px-6">
+              <p className="text-xs text-muted-foreground sm:text-sm">
                 Mostrando {(currentPage - 1) * itemsPerPage + 1} a{' '}
                 {Math.min(currentPage * itemsPerPage, filteredUsers.length)} de{' '}
                 {filteredUsers.length} usuarios
               </p>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1 sm:gap-2">
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => setCurrentPage(currentPage - 1)}
                   disabled={currentPage === 1}
-                  className="border-violet-500/30 bg-transparent text-violet-300 hover:border-violet-500/50 hover:bg-violet-500/10 disabled:opacity-30"
+                  className="h-8 w-8 border-primary/30 bg-transparent p-0 text-muted-foreground hover:border-primary/50 hover:bg-primary/10 hover:text-foreground disabled:opacity-30 sm:h-9 sm:w-9"
                 >
                   <ChevronLeft className="h-4 w-4" />
                 </Button>
@@ -730,9 +873,10 @@ export default function AdminUsersPage() {
                       size="sm"
                       onClick={() => setCurrentPage(pageNum)}
                       className={cn(
+                        "h-8 w-8 p-0 sm:h-9 sm:w-9",
                         currentPage === pageNum
-                          ? "bg-gradient-to-r from-violet-600 to-purple-600 text-white"
-                          : "border-violet-500/30 bg-transparent text-violet-300 hover:border-violet-500/50 hover:bg-violet-500/10"
+                          ? "bg-gradient-to-r from-primary to-purple-600 text-primary-foreground"
+                          : "border-primary/30 bg-transparent text-muted-foreground hover:border-primary/50 hover:bg-primary/10 hover:text-foreground"
                       )}
                     >
                       {pageNum}
@@ -744,7 +888,7 @@ export default function AdminUsersPage() {
                   size="sm"
                   onClick={() => setCurrentPage(currentPage + 1)}
                   disabled={currentPage === totalPages}
-                  className="border-violet-500/30 bg-transparent text-violet-300 hover:border-violet-500/50 hover:bg-violet-500/10 disabled:opacity-30"
+                  className="h-8 w-8 border-primary/30 bg-transparent p-0 text-muted-foreground hover:border-primary/50 hover:bg-primary/10 hover:text-foreground disabled:opacity-30 sm:h-9 sm:w-9"
                 >
                   <ChevronRight className="h-4 w-4" />
                 </Button>
